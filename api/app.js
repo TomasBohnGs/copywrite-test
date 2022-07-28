@@ -1,6 +1,8 @@
+const dotenv = require("dotenv")
 const express = require('express');
 const routes = require('./routes/index.js');
 
+dotenv.config();
 const server = express();
 
 server.use( express.json({ limit: '50mb' }) );
@@ -12,7 +14,8 @@ server.use((req, res, next) => {
     next();
 });
 server.use('/', routes);
+server.set('port', process.env.PORT || 3001);
 
-server.listen(3001, () => {
-    console.log(`%s listening at ${3001}`);
-});
+server.listen(server.get('port'), () => {
+    console.log('Server listening on port', server.get('port'));
+})
